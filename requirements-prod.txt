@@ -1,0 +1,8 @@
+fastapi
+uvicorn[standard]
+asyncpg
+# ou, si vous voulez SQLAlchemy + driver sync :
+# sqlalchemy
+# psycopg2-binary
+python-dotenv    # pour charger un .env en local
+# alembic        # si vous gérez vos migrations
