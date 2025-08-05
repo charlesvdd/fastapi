@@ -21,5 +21,6 @@ COPY . .
 # N'exposez pas littéralement $PORT, le réglage dans l'UI suffit
 EXPOSE 80
 
-# Utilisez sh -c pour que $PORT soit remplacé à l'exécution
+EXPOSE 80
 CMD ["sh", "-c", "uvicorn main:app --host 0.0.0.0 --port $PORT"]
+
