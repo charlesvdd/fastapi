@@ -18,8 +18,8 @@ COPY --from=builder /usr/local /usr/local
 # On copie tout le code de l'app
 COPY . .
 
-# On expose le PORT que CapRover définira à runtime
-EXPOSE $PORT
+# N'exposez pas littéralement $PORT, le réglage dans l'UI suffit
+EXPOSE 80
 
-# On démarre Uvicorn sur le PORT injecté
-CMD ["bash", "-lc", "uvicorn main:app --host 0.0.0.0 --port $PORT"]
+# Utilisez sh -c pour que $PORT soit remplacé à l'exécution
+CMD ["sh", "-c", "uvicorn main:app --host 0.0.0.0 --port $PORT"]
