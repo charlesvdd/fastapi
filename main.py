@@ -22,7 +22,6 @@ async def startup():
             database=DB_NAME,
         )
     except Exception as e:
-        # Échec de connexion à la BDD : on loggue et on stoppe le conteneur
         print(f"[ERROR] Cannot connect to database: {e}")
         raise
 
@@ -46,12 +45,11 @@ async def read_items():
         rows = await app.state.db.fetch("SELECT id, name FROM items;")
         return [dict(r) for r in rows]
     except Exception as e:
-        # En cas d'erreur SQL, on renvoie un 500
         raise HTTPException(status_code=500, detail=str(e))
 
 @app.get("/")
 async def root():
     """
-    Landing page simple à la racine pour éviter la page Nginx par défaut.
+    Landing page simple à la racine pour remplacer la page Nginx par défaut.
     """
     return {"message": "Bienvenue sur votre FastAPI déployée via CapRover !"}
