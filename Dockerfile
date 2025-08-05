@@ -18,9 +18,8 @@ COPY --from=builder /usr/local /usr/local
 # On copie tout le code de l'app
 COPY . .
 
-# Port sur lequel Uvicorn écoutera (à matcher dans CapRover)
-ENV PORT=8000
-EXPOSE 8000
+# On expose le PORT que CapRover définira à runtime
+EXPOSE $PORT
 
-# Commande de démarrage
-CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]
+# On démarre Uvicorn sur le PORT injecté
+CMD ["bash", "-lc", "uvicorn main:app --host 0.0.0.0 --port $PORT"]
