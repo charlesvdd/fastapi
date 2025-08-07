@@ -46,4 +46,8 @@ async def read_items():
     if not db:
         raise HTTPException(status_code=503, detail="Database unavailable")
     rows = await db.fetch("SELECT id, name FROM items;")
-    return [dict(]()
+    return [dict(r) for r in rows]
+
+@app.get("/", include_in_schema=False)
+def root():
+    return RedirectResponse("/docs")
