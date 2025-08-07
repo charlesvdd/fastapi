@@ -12,13 +12,17 @@ RUN pip install --no-cache-dir -r requirements-prod.txt
 FROM python:3.11-slim AS runner
 WORKDIR /app
 
+# Définit PORT à 80 si CapRover ne le passe pas
+ENV PORT=80
+
 # On reprend l'environnement Python du builder
 COPY --from=builder /usr/local /usr/local
 
 # On copie tout le code de l'app
 COPY . .
 
-# N'exposez pas littéralement $PORT, le réglage dans l'UI suffit
+# Exposez le port sur lequel l'app écoute
 EXPOSE 80
-CMD ["sh", "-c", "uvicorn main:app --host 0.0.0.0 --port $PORT"]
 
+# Lance Uvicorn avec fallback sur 80 si $PORT est vide
+CMD ["sh", "-c", "uvicorn main:app --host 0.0.0.0 --port ${PORT:-80}"]
